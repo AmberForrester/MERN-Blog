@@ -9,12 +9,7 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: {
-    react: {
-      version: 'detect', // Or '18.2' 
-      runtime: 'automatic', // New JSX Transform
-    },
-  },
+  settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
     'react/jsx-no-target-blank': 'off',
@@ -22,7 +17,5 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
   },
-};
+}
