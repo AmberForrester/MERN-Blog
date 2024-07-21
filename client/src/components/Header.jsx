@@ -51,7 +51,7 @@ const Header = () => {
                 </Button>
 
                 <Link to='/signin'>
-                    <Button gradientDuoTone='purpleToBlue' outline>
+                    <Button className='bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white' outline>
                         Sign In
                     </Button>
                 </Link>
@@ -70,8 +70,8 @@ const Header = () => {
                         <Link to='/about'>About</Link>
                   </Navbar.Link>
 
-                  <Navbar.Link as={'div'} className={getActiveClass('/projects')}>
-                        <Link to='/projects'>Projects</Link>
+                  <Navbar.Link as={'div'} className={getActiveClass('/blogs')}>
+                        <Link to='/blogs'>Blogs</Link>
                   </Navbar.Link>
                 </Navbar.Collapse>  
               </div>

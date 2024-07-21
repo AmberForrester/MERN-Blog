@@ -1,8 +1,8 @@
-import React from 'react'
+
 
 const About = () => {
   return (
-    <div>About
+    <div>The Journey to becoming a Full Stack Developer
         
     </div>
   )

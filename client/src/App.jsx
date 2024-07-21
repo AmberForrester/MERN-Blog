@@ -4,8 +4,10 @@ import About from './pages/About';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
-import Projects from './pages/Projects';
+import Blogs from './pages/Blogs';
 import Header from './components/Header';
+import FooterCom from './components/Footer';
+
 
 const App = () => {
   return (
@@ -20,8 +22,11 @@ const App = () => {
         <Route path='/signin' element={<SignIn/>}/>
         <Route path='/signup' element={<SignUp/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/projects' element={<Projects/>}/>
+        <Route path='/blogs' element={<Blogs/>}/>
       </Routes>
+
+      <FooterCom/>
+
     </BrowserRouter>
   );
 };
