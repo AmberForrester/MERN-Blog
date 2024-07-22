@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {Label, TextInput, Button, Spinner} from 'flowbite-react';
+import {Label, TextInput, Button, Spinner, Alert} from 'flowbite-react';
 import { useState } from 'react';
 
 const SignUp = () => {
@@ -64,8 +64,6 @@ const SignUp = () => {
         setLoading(false);
         return setErrorMessage(data.message);
       }
-      
-      console.log(errorMessage);
 
       // Everything has been successful. 
       setLoading(false);
@@ -94,8 +92,9 @@ const SignUp = () => {
             <Link to='/' 
                   className='font-bold dark:text-white text-6xl'>
 
-                  <span className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'>Amber&apos;s</span>
-                  Blog
+                  <span className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'>SignUp
+                  </span>
+                  Here
             </Link>
 
               <p className='text-sm mt-5'>
@@ -157,6 +156,12 @@ const SignUp = () => {
                   Sign In
                   </Link>
                 </div>
+
+                {errorMessage && (
+                  <Alert className='mt-5' color='failure'>
+                    {errorMessage}
+                  </Alert>
+                )}
 
             </div>
 
