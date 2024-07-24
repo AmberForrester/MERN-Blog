@@ -84,5 +84,64 @@ export const signin = async (req, res, next) => {
     } catch(error) {
         next(error);
     }
+};
 
+// Create the google Auth controller: 
+export const google = async (req, res, next) => {
+
+    // Our req.body gives 3 things from the API call in the frontend.
+    const { name, email, googlePhotoUrl } = req.body;
+
+    try {
+        // See if the user exists through their email in the DB or not.
+        const user = await User.findOne({email});
+
+        // If the user is found in our DB, create a signed jwt token. Get the user_id from our DB - to create a special token to sign in.
+        if (user) {
+            const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET);
+            const { password, ...rest} = user._doc;
+
+            // Successful sign in gives us the token created and returns the rest of the information to the user.
+            res
+            .status(200)
+            .cookie('access_token', token, { httpOnly: true,})
+            .json(rest);
+        } 
+
+        else { // If the user does not exist - create a new user with a new random secured password.
+            const generatedPassword = 
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8);
+
+                // Let's hash the password for more security:
+                const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+        const newUser = new User({
+            username: name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+            email,
+            password: hashedPassword,
+            profilePicture: googlePhotoUrl,
+        });
+        
+        // Save the new user in the DB.
+        await newUser.save();
+            
+        const token = jwt.sign({
+            id: newUser._id, // Get the id for the newUser created. 
+            isAdmin: newUser.isAdmin,
+        },
+            process.env.JWT_SECRET
+        );
+            
+        const { password, ...rest } = newUser._doc;
+            
+        res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(rest);
+        }
+    
+    } catch (error) {
+        next(error);
+    }
 };
