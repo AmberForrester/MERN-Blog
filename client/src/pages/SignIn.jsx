@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { SignInStart, SignInSuccess, signInFailure } from '../redux/user/userSlice';
+import OAuth from '../components/OAuth';
 
 
 const SignIn = () => {
@@ -130,6 +131,8 @@ const SignIn = () => {
                       ) : ('Sign In')
                     }
                   </Button>
+
+                  <OAuth/>
 
                 </form>
 

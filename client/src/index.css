@@ -3,9 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-/* body {
+body {
     height: 100vh;
 }
 
@@ -43,5 +41,5 @@
   
   .dark .post-content a {
     color: red;
-  } */
+  }
 

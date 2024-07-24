@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import {Label, TextInput, Button, Spinner, Alert} from 'flowbite-react';
 import { useState } from 'react';
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
 
@@ -147,6 +148,8 @@ const SignUp = () => {
                       ) : ('Sign Up')
                     }
                   </Button>
+
+                  <OAuth/>
 
                 </form>
 
