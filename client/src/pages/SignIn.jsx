@@ -1,17 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
 import {Label, TextInput, Button, Spinner, Alert} from 'flowbite-react';
 import { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
+import { SignInStart, SignInSuccess, signInFailure } from '../redux/user/userSlice';
+
 
 const SignIn = () => {
 
   // Track the form data and the changes.
   const [formData, setFormData] = useState({});
 
-  // Creates an error message if there is an error + set the useState to null because we dont want an error initially. 
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  // Creates an error message if there is an error loading + set the useState to false so it does not load in the beginning. 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const {loading, error:errorMessage} = useSelector((state) => state.user);
 
   // Define the function that if everything is successful we navigate the user to the sign in page within line 61-64.
   const navigate = useNavigate();
@@ -31,15 +32,12 @@ const SignIn = () => {
     
     // If username, email, or password is not provided - return an error message to the user.
     if (!formData.email || !formData.password) {
-      return setErrorMessage('All fields are required!');
-      
+      return dispatch(signInFailure('Please fill in all fields.'));
     }
 
     try {
 
-      // We want a loading state + no error message R/T first initiating the API call. 
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(SignInStart());
 
       // With an await function using fetch to call the API.
       const res = await fetch('/api/auth/signin', {
@@ -59,28 +57,22 @@ const SignIn = () => {
       const data = await res.json();
       //console.log(data); Check if working.
       
-      // If there is still an error then loading will not happen + return an error message to the user.
       if (data.success === false) {
-        setLoading(false);
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      
-      // Everything has been successful. 
-      setLoading(false);
-
-      // If everything is running okay, navigate user to the sign in page. 
+       
       if (res.ok) {
+        dispatch(SignInSuccess(data));
         navigate('/');
       }
     } 
-      // Instead of using console.log - we can utilize our state for setErrorMessage to whatever the error message appears + our state because if the error is there then our loading wont work. 
+      
       catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
-  console.log(formData);
+  //console.log(formData); Check if submitted formdata is present.
 
   return (
     <div className='min-h-screen mt-40'>

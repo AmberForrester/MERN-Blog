@@ -28,10 +28,16 @@ const userSlice = createSlice({
             state.error = action.payload;
         },
 
+
+
+        
+
         
     }
 });
 
+export const {SignInStart, SignInSuccess, signInFailure} = userSlice.actions; 
+// Export these functions to use in other places of our application. 
 
 
-export default userSlice.reducer;
+export default userSlice.reducer; 
