@@ -1,10 +1,11 @@
 import { Button } from "flowbite-react";
 import { FcGoogle } from "react-icons/fc";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { app } from '../firebase';
 import { useDispatch } from "react-redux";
-import { SignInSuccess } from "../redux/user/userSlice";
+import { signInSuccess } from "../redux/user/userSlice.js";
+import { app } from '../firebase';
 import { useNavigate } from "react-router-dom";
+
 
 
 const OAuth = () => {
@@ -35,7 +36,7 @@ const OAuth = () => {
             // Convert the response to json, dispatch the signin was successful and navigate user that signed in to the home page. 
             const data = await res.json();
             if (res.ok) {
-                dispatch(SignInSuccess(data));
+                dispatch(signInSuccess(data));
                 navigate('/')
             }
 

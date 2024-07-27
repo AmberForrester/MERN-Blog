@@ -3,7 +3,7 @@ import {Label, TextInput, Button, Spinner, Alert} from 'flowbite-react';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
-import { SignInStart, SignInSuccess, signInFailure } from '../redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 import OAuth from '../components/OAuth';
 
 
@@ -38,7 +38,7 @@ const SignIn = () => {
 
     try {
 
-      dispatch(SignInStart());
+      dispatch(signInStart());
 
       // With an await function using fetch to call the API.
       const res = await fetch('/api/auth/signin', {
@@ -63,7 +63,7 @@ const SignIn = () => {
       }
        
       if (res.ok) {
-        dispatch(SignInSuccess(data));
+        dispatch(signInSuccess(data));
         navigate('/');
       }
     } 
