@@ -77,84 +77,77 @@ const SignIn = () => {
 
   return (
     <div className='min-h-screen mt-40'>
-
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10'>
-
         {/* Left */}
         <div className='flex-1'>
-            <Link to='/' 
-                  className='font-bold dark:text-white text-6xl'>
-
-                  <span className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'>SignIn
-                  </span>
-                  Here
-            </Link>
-
-              <p className='text-sm mt-5'>
-                This is a demo project. Sign in with your email, password, or with Google to comment and request a blog topic you would like to see.
-              </p>
-
+          <Link to='/' className='font-bold dark:text-white text-6xl'>
+            <span className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'>
+              SignIn
+            </span>
+            Here
+          </Link>
+          <p className='text-sm mt-5'>
+            This is a demo project. Sign in with your email, password, or with Google to comment and request a blog topic you would like to see.
+          </p>
         </div>
 
-            {/* Right */}
-            <div className='flex-1'>
-                <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
-
-                  <div>
-                    <Label value='Email:'/>
-                    <TextInput
-                    type='email'
-                    placeholder='name@company.com'
-                    id='email'
-                    onChange={handleChange}/>
-                  </div>
-
-                  <div>
-                    <Label value='Password:'/>
-                    <TextInput
-                    type='password'
-                    placeholder='Enter password here.'
-                    id='password'
-                    onChange={handleChange}/>
-                  </div>
-
-                  <Button className='bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'
-                  type='submit'
-                  disabled={loading}> 
-                  {/* disabled={loading} will prevent multiple API calls when the button is pressed */}
-                    {
-                      loading ? (
-                        <>
-                        <Spinner size='sm'/>
-                        <span className='pl-3'>Loading...</span>
-                        </>
-                      ) : ('Sign In')
-                    }
-                  </Button>
-
-                  <OAuth/>
-
-                </form>
-
-                <div className='flex gap-2 text-sm mt-3'>
-                  <span>Don&apos;t have an account yet?</span>
-                  <Link to='/signup' className='text-cyan-500'>
-                  Sign Up 
-                  </Link>
-                </div>
-
-                {errorMessage && (
-                  <Alert className='mt-5' color='failure'>
-                    {errorMessage}
-                  </Alert>
-                )}
-
+        {/* Right */}
+        <div className='flex-1'>
+          <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
+            <div>
+              <Label value='Email:' />
+              <TextInput
+                type='email'
+                placeholder='name@company.com'
+                id='email'
+                onChange={handleChange}
+              />
             </div>
 
-      </div>
+            <div>
+              <Label value='Password:' />
+              <TextInput
+                type='password'
+                placeholder='Enter password here.'
+                id='password'
+                onChange={handleChange}
+              />
+            </div>
 
+            <Button
+              className='bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white w-full h-12 focus:outline-none no-outline' outline
+              type='submit'
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size='sm' />
+                  <span className='pl-3'>Loading...</span>
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+
+            <OAuth />
+          </form>
+
+          <div className='flex gap-2 text-sm mt-3'>
+            <span>Don&apos;t have an account yet?</span>
+            <Link to='/signup' className='text-cyan-500'>
+              Sign Up
+            </Link>
+          </div>
+
+          {errorMessage && (
+            <Alert className='mt-5' color='failure'>
+              {errorMessage}
+            </Alert>
+          )}
+        </div>
+      </div>
     </div>
-  )
+  );
 };
 
 export default SignIn;

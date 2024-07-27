@@ -7,11 +7,9 @@ body {
     height: 100vh;
 }
 
-
 .ql-editor {
     font-size: 1.05rem;
 }
-
 
 .post-content p {
     margin-bottom: 0.5rem;
@@ -42,4 +40,10 @@ body {
   .dark .post-content a {
     color: red;
   }
+
+  /* custom.css */
+.no-outline:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
