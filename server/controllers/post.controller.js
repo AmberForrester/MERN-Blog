@@ -10,7 +10,7 @@ export const createPost = async (req, res, next) => {
     return next(errorHandler(400, "Title and content are required to create a blog post. "));
   }
 
-  // GOOD SEO RESULTS!
+  // GOOD FOR SEO RESULTS!
   const slug = req.body.title
     .split(" ")
     .join("-")

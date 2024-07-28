@@ -16,6 +16,7 @@ const CreatePost = () => {
 
 
     const [formData, setFormData] = useState({});
+    //console.log(formData); - See the formData in action within the console of your browser using F12 or right click inspect. 
 
     const [publishError, setPublishError] = useState(null);
 
@@ -83,11 +84,11 @@ const CreatePost = () => {
     
           if (res.ok) {
             setPublishError(null);
-            navigate(`/post/${data.slug}`);
+            navigate(`/post/${data.slug}`); // When blog is created, we want to redirect it to its specific page using it's URL.
           }
     
         } catch (error) {
-          setPublishError('Something went wrong.');
+          setPublishError('Something went wrong while trying to publish your new blog post.');
         }
       };
 
@@ -105,12 +106,15 @@ const CreatePost = () => {
                 required
                 id='title'
                 className='flex-1'
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
                 />
 
-                <Select>
+                <Select 
+                onChange={(e) => setFormData({...formData, category: e.target.value})}>
                     <option value='uncategorized'>Select a category</option>
                     <option value='projectmanagement'>Project Management for Software Development</option>
                     <option value='fullstackdevelopment'>Introduction to Full Stack Development</option>
+                    <option value='visualstudiocode'>Visual Studio Code</option>
                     <option value='frontend'>Frontend - HTML & CSS</option>
                     <option value='javascript'>Advanced Frontend - JavaScript</option>
                     <option value='javascript'>JavaScript</option>
