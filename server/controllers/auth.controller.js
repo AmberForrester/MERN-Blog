@@ -67,7 +67,7 @@ export const signin = async (req, res, next) => {
         // Create a JWT -> install `npm i jsonwebtoken` in Terminal + add `import jwt from 'jsonwebtoken';` at the top.
 
         // Token created and JWT sign validated the special object from the DB _id of the user and the secret key that we gave afer we created it in our .env file = creates a unique key to every single user
-        const token = jwt.sign({id: validUser._id},
+        const token = jwt.sign({id: validUser._id, isAdmin: validUser.isAdmin},
             process.env.JWT_SECRET,
         );
 

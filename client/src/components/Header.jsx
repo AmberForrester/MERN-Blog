@@ -5,6 +5,7 @@ import {AiOutlineSearch} from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice.js';
+import { signOutSuccess } from '../redux/user/userSlice.js';
 
 const Header = () => {
 
@@ -16,14 +17,37 @@ const Header = () => {
 
   const { theme } = useSelector((state) => state.theme);
 
+  
+
 
 
   useEffect(() => {}); // Search query goes here.
 
 
 
+
+
   const getActiveClass = (currentPath) => {
     return path === currentPath ? 'text-blue-500 font-bold' : 'text-gray-700 dark:text-gray-300';
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch(`/api/user/signout`, {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
 
@@ -78,7 +102,7 @@ const Header = () => {
                           </Link>
                           <Dropdown.Divider/>
 
-                            <Dropdown.Item>Sign Out</Dropdown.Item>
+                            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
                           </Dropdown>
 
                           ): (

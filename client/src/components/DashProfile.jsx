@@ -1,5 +1,5 @@
 import { Button, TextInput, Alert, Modal } from 'flowbite-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { app } from '../firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -23,9 +23,9 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const DashProfile = () => {
 
-  const {currentUser, error, loading } = useSelector((state) => state.user);
+  const {currentUser, loading } = useSelector((state) => state.user);
   // console.log(currentUser); - View state properties.
-  console.log(error); 
+
 
   const filePickerRef = useRef();
 
@@ -38,6 +38,7 @@ const DashProfile = () => {
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
 
+  //Track what's happening in our state on the DashProfile page. 
   const [formData, setFormData] = useState({});
 
   const [showModal, setShowModal] = useState(false);
@@ -50,26 +51,14 @@ const DashProfile = () => {
   // Allow firebase function so we can upload CUSTOM images on the cloud to update the profile picture. 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    // Create an image URL. 
     if (file) {
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
-  console.log(imageFileUrl); 
 
-    useEffect(() => {
-      if (imageFile) {
-        uploadImage([imageFile]);
-      }
-    });
-
-
-
-
-  const uploadImage = async () => {
-
-    setImageFileUploading(null);
+  const uploadImage = useCallback(async () => {
+    setImageFileUploading(true);
     setImageFileUploadError(null);
 
     const storage = getStorage(app);
@@ -77,28 +66,24 @@ const DashProfile = () => {
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-            setImageFileUploadProgress(progress.toFixed(0));
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageFileUploadProgress(progress.toFixed(0));
       },
-
       (error) => {
         setImageFileUploadError(
-          "Could not upload image (File must be less than 2MB)"
-        );
+          "Could not upload image (File must be less than 3MB)");
         setImageFile(null);
         setImageFileUrl(null);
-        setImageFileUploadProgress(false);
-
+        setImageFileUploadProgress(null);
+        setImageFileUploading(false);
         console.log(error);
       },
-  
       () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
           setImageFileUploadProgress(null);
@@ -106,12 +91,19 @@ const DashProfile = () => {
         });
       }
     );
-  };
+  }, [imageFile, formData]);
+
+  useEffect(() => {
+    if (imageFile) {
+      console.log('Image file detected, starting upload...');
+      uploadImage();
+    }
+  }, [imageFile, uploadImage]);
 
 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value }); // Preserve other states when other things are only changed liked username, email, password or image.
   };
 
   const handleSubmit = async (e) => {
@@ -121,12 +113,12 @@ const DashProfile = () => {
     setUpdateUserSuccess(null);
 
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError("No changes made");
+      setUpdateUserError("No changes have been made.");
       return;
     }
 
     if (imageFileUploading) {
-      setUpdateUserError("Please wait for image to upload");
+      setUpdateUserError("Please wait for the image to upload.");
       return;
     }
 
@@ -141,16 +133,21 @@ const DashProfile = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
+        const errorData = await res.text(); // Get the response as text
+        console.error('Server Error:', errorData); // Log the raw error response
+        dispatch(updateFailure(errorData));
+        setUpdateUserError("An error occurred while updating the profile.");
+
       } else {
+
+        const data = await res.json();
         dispatch(updateSuccess(data));
-        setUpdateUserSuccess("Profile updated successfully");
+        setUpdateUserSuccess("Profile updated successfully!");
       }
+      
     } catch (error) {
+      console.error('Fetch Error:', error); // Log the fetch error
       dispatch(updateFailure(error.message));
       setUpdateUserError(error.message);
     }
@@ -193,7 +190,6 @@ const DashProfile = () => {
       } else {
         dispatch(signOutSuccess());
       }
-
 
     } catch (error) {
       console.log(error.message);

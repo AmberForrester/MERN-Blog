@@ -1,9 +1,18 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
-import { test } from '../controllers/user.controller.js';
+import { deleteUser, getUser, getUsers, signOut, test, updateUser } from "../controllers/user.controller.js";
 
-router.get('/test', test);
+import { verifyUser } from "../utils/verifyUser.js";
 
-export default router; 
+router.get("/test", test);
+router.put("/update/:userId", verifyUser, updateUser); // Using the profile _id from MongoDB
+
+router.delete("/delete/:userId", verifyUser, deleteUser);
+
+router.post("/signout", signOut);
+router.get("/getusers", verifyUser, getUsers);
+router.get("/:userId", getUser);
+
+export default router;

@@ -115,7 +115,7 @@ const SignIn = () => {
             </div>
 
             <Button
-              className='bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white w-full h-12 focus:outline-none no-outline' outline
+              className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'
               type='submit'
               disabled={loading}
             >
