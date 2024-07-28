@@ -101,6 +101,8 @@ export const deletePost = async (req, res, next) => {
   }
 };
 
+
+
 export const updatePost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(

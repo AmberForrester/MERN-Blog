@@ -137,6 +137,9 @@ const CreatePost = () => {
                     <option value='redux'>Redux</option>
                     <option value='express'>Express</option>
                     <option value='nextjs'>Next.js</option>
+                    <option value='python'>Python</option>
+                    <option value='flask'>Flask</option>
+                    <option value='django'>Django Framework</option>
                     <option value='student'>Student Tips & Tricks</option>
                     <option value='chatgpt'>Chat GPT</option>
                     <option value='fsdlife'>Day In The Life Of A Full Stack Developer</option>

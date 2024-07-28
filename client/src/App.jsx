@@ -7,9 +7,10 @@ import Dashboard from './pages/Dashboard';
 import Blogs from './pages/Blogs';
 import Header from './components/Header';
 import FooterCom from './components/Footer';
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from './components/PrivateRoute';
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import CreatePost from './pages/CreatePost';
+import UpdatePost from './pages/UpdatePost';
 
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route element={<OnlyAdminPrivateRoute />}>
 
           <Route path="/create-post" element={<CreatePost/>} />
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
           
         </Route>
 

@@ -16,9 +16,9 @@ import {
   deleteSuccess,
   deleteFailure,
   signOutSuccess
-} from "../redux/user/userSlice.js";
+} from '../redux/user/userSlice.js';
 
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 
