@@ -59,6 +59,9 @@ const DashProfile = () => {
   };
 
   const uploadImage = useCallback(async () => {
+    if (!imageFile) return;
+
+    console.log('Starting image upload...');
     setImageFileUploading(true);
     setImageFileUploadError(null);
 
@@ -70,29 +73,28 @@ const DashProfile = () => {
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadProgress(progress.toFixed(0));
       },
       (error) => {
-        setImageFileUploadError(
-          "Could not upload image (File must be less than 3MB)");
+        console.log('Error during upload:', error);
+        setImageFileUploadError("Could not upload image (File must be less than 3MB)");
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploadProgress(null);
         setImageFileUploading(false);
-        console.log(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('Upload complete. File available at', downloadURL);
           setImageFileUrl(downloadURL);
-          setFormData({ ...formData, profilePicture: downloadURL });
+          setFormData((prevFormData) => ({ ...prevFormData, profilePicture: downloadURL }));
           setImageFileUploadProgress(null);
           setImageFileUploading(false);
         });
       }
     );
-  }, [imageFile, formData]);
+  }, [imageFile]);
 
   useEffect(() => {
     if (imageFile) {
