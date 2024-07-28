@@ -2,6 +2,7 @@ import { Button, TextInput, Alert, Modal } from 'flowbite-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { app } from '../firebase';
+import { Link } from "react-router-dom";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -269,6 +270,15 @@ const DashProfile = () => {
              {loading ? "Loading..." : "Update"}
             
             </Button>
+
+
+
+             {currentUser.isAdmin && (
+              <Link to={'/create-post'}>
+                <Button type='button' className='w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white no-outline' outline >Create New Blog Post</Button>
+              </Link>
+             )}
+      
           </div>
         </form>
 

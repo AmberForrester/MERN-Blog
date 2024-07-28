@@ -52,6 +52,7 @@ const DashSidebar = () => {
 
             <Sidebar.ItemGroup className="flex flex-col gap-1">
                 {currentUser && currentUser.isAdmin && (
+
                     <Link to="/dashboard?tab=dash">
                         <Sidebar.Item
                         active={tab === 'dash'}
@@ -62,7 +63,6 @@ const DashSidebar = () => {
                         </Sidebar.Item>
                     </Link>
                 )}
-
             <Link to='/dashboard?tab=profile'>
             <Sidebar.Item
               active={tab === 'profile'}
