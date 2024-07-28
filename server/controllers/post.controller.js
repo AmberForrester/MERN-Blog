@@ -34,13 +34,16 @@ export const createPost = async (req, res, next) => {
 };
 
 export const getPosts = async (req, res, next) => {
+
   try {
-    const startIndex = parseInt(req.query.startIndex) || 0;
 
-    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.startIndex) || 0; // Where to start from. 
 
-    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const limit = parseInt(req.query.limit) || 9; // Set limit to amount of posts returned on the page. 
 
+    const sortDirection = req.query.order === "asc" ? 1 : -1; // Newest to oldest. 
+
+    // Find the posts within the MongoDB - paying attention to how it is stored in the DB = how to call it. (ex. _id:)
     const posts = await Post.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
@@ -57,8 +60,10 @@ export const getPosts = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
+    // How many blog posts are available within the MongoDB
     const totalPosts = await Post.countDocuments();
 
+    // Return blog posts according to the date created. 
     const now = new Date();
 
     const oneMonthAgo = new Date(
@@ -77,7 +82,7 @@ export const getPosts = async (req, res, next) => {
       lastMonthPosts,
     });
   } catch (error) {
-    next(error);
+    next(error); //Middleware call 
   }
 };
 

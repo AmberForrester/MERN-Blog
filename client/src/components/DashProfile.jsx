@@ -306,10 +306,10 @@ const DashProfile = () => {
                   </h3>
                   <div className="flex justify-center gap-4">
                     <Button color="failure" onClick={handleDeleteUser}>
-                      Yes, I am sure
+                      Yes, I am sure.
                     </Button>
                     <Button color="gray" onClick={() => setShowModal(false)}>
-                      No, cancel
+                      No, please cancel deletion.
                     </Button>
                   </div>
                 </div>

@@ -114,12 +114,15 @@ const CreatePost = () => {
                     <option value='uncategorized'>Select a category</option>
                     <option value='projectmanagement'>Project Management for Software Development</option>
                     <option value='fullstackdevelopment'>Introduction to Full Stack Development</option>
+                    <option value='developertools'>Developer Tools</option>
+                    <option value='documentation'>Documentation</option>
+                    <option value='github'>GitHub</option>
                     <option value='visualstudiocode'>Visual Studio Code</option>
                     <option value='frontend'>Frontend - HTML & CSS</option>
-                    <option value='javascript'>Advanced Frontend - JavaScript</option>
                     <option value='javascript'>JavaScript</option>
                     <option value='react.js'>React</option>
                     <option value='router'>Router</option>
+                    <option value='virtualization'>Virtualization</option>
                     <option value='mongodb'>MongoDB</option>
                     <option value='express'>Express</option>
                     <option value='node.js'>Node.js</option>
@@ -127,6 +130,7 @@ const CreatePost = () => {
                     <option value='angular'>Angular</option>
                     <option value='meanstack'>MEAN Stack</option>
                     <option value='api'>API&apos;s</option>
+                    <option value='thunderclient'>Thunder Client</option>
                     <option value='middleware'>Middleware</option>
                     <option value='jwt'>JSON Web Tokens</option>
                     <option value='tailwindcss'>TailwindCSS</option>
@@ -134,6 +138,7 @@ const CreatePost = () => {
                     <option value='express'>Express</option>
                     <option value='nextjs'>Next.js</option>
                     <option value='student'>Student Tips & Tricks</option>
+                    <option value='chatgpt'>Chat GPT</option>
                     <option value='fsdlife'>Day In The Life Of A Full Stack Developer</option>
                 </Select>
             </div>
@@ -167,7 +172,7 @@ const CreatePost = () => {
                   <img 
                     src={formData.image}
                     alt="upload"
-                    className="w-full h-72 object-cover" 
+                    className="w-full h-90 object-cover" 
                   />
                 )}
 

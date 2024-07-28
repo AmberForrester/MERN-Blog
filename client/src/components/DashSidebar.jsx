@@ -59,7 +59,7 @@ const DashSidebar = () => {
                         icon={HiChartPie}
                         as="div"
                         >
-                            Dashboard
+                          Dashboard
                         </Sidebar.Item>
                     </Link>
                 )}

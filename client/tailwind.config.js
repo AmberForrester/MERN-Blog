@@ -13,6 +13,7 @@ export default {
   },
   plugins: [
     flowbite,
+    'tailwind-scrollbar',
   ],
 };
 

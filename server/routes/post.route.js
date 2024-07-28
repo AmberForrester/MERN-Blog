@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.post('/create', verifyUser, createPost); // User verified as an admin. 
-router.get('/getposts', getPosts);
+router.get('/getposts', getPosts); 
 router.delete('/deletepost/:postId/:userId', verifyUser, deletePost);
 router.put('/updatepost/:postId/:userId', verifyUser, updatePost);
 
