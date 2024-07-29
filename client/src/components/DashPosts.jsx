@@ -157,7 +157,7 @@ const DashPosts = () => {
 
         {showMore && (
               <button
-                className="w-full text-cyan-500 self-center text-sm py-7"
+                className="w-full text-blue-500 self-center text-sm py-7"
                 onClick={handleShowMore}
               >
                 Show More

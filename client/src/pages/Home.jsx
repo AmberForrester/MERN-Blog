@@ -51,7 +51,7 @@ export default function Home() {
               to={'/search'}
               className='text-lg text-blue-500 hover:underline text-center'
             >
-              Search Blog Posts Here
+              Search Categories of Blog Posts 
             </Link>
           </div>
         )}
