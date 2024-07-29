@@ -156,7 +156,7 @@ const Header = () => {
                         </Navbar.Link>
 
                         <Navbar.Link as={'div'} className={`${getActiveClass('/blogs')} custom-navbar-link`}>
-                              <Link to='/blogs'>Blogs</Link>
+                              <Link to='/search'>Blogs</Link>
                         </Navbar.Link>
                       </Navbar.Collapse>  
                     </div>

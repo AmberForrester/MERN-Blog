@@ -116,6 +116,7 @@ export default function Search() {
               onChange={handleChange}
               value={sidebarData.category}
               id='category'
+              required
             >
                     <option value='uncategorized'>Select a category</option>
                     <option value='projectmanagement'>Project Management for Software Development</option>
