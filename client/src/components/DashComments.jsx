@@ -1,19 +1,58 @@
 import { Modal, Table, Button } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export default function DashComments() {
   const { currentUser } = useSelector((state) => state.user);
   const [comments, setComments] = useState([]);
+  const [posts, setPosts] = useState({});
+  const [users, setUsers] = useState({});
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [commentIdToDelete, setCommentIdToDelete] = useState('');
 
+  const fetchPostAndUserDetails = useCallback(async (comments) => {
+    const postIds = [...new Set(comments.map(comment => comment.postId))];
+    const userIds = [...new Set(comments.map(comment => comment.userId))];
+
+    try {
+      const postRes = await fetch(`/api/post/getPostsByIds`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postIds })
+      });
+      const userRes = await fetch(`/api/user/getUsersByIds`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userIds })
+      });
+
+      const postData = await postRes.json();
+      const userData = await userRes.json();
+
+      if (postRes.ok) {
+        const postMap = {};
+        postData.posts.forEach(post => {
+          postMap[post._id] = post.title;
+        });
+        setPosts(postMap);
+      }
+
+      if (userRes.ok) {
+        const userMap = {};
+        userData.users.forEach(user => {
+          userMap[user._id] = user.username;
+        });
+        setUsers(userMap);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
   useEffect(() => {
-
     const fetchComments = async () => {
-
       try {
         const res = await fetch(`/api/comment/getComments`);
         const data = await res.json();
@@ -22,6 +61,7 @@ export default function DashComments() {
           if (data.comments.length < 9) {
             setShowMore(false);
           }
+          await fetchPostAndUserDetails(data.comments);
         }
       } catch (error) {
         console.log(error.message);
@@ -31,10 +71,9 @@ export default function DashComments() {
     if (currentUser.isAdmin) {
       fetchComments();
     }
-  }, [currentUser._id, currentUser.isAdmin]);
+  }, [currentUser._id, currentUser.isAdmin, fetchPostAndUserDetails]);
 
   const handleShowMore = async () => {
-
     const startIndex = comments.length;
 
     try {
@@ -48,6 +87,7 @@ export default function DashComments() {
         if (data.comments.length < 9) {
           setShowMore(false);
         }
+        await fetchPostAndUserDetails(data.comments);
       }
     } catch (error) {
       console.log(error.message);
@@ -55,7 +95,6 @@ export default function DashComments() {
   };
 
   const handleDeleteComment = async () => {
-
     setShowModal(false);
 
     try {
@@ -81,7 +120,6 @@ export default function DashComments() {
   };
 
   return (
-
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {currentUser.isAdmin && comments.length > 0 ? (
         <>
@@ -90,8 +128,8 @@ export default function DashComments() {
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Comment content</Table.HeadCell>
               <Table.HeadCell>Number of likes</Table.HeadCell>
-              <Table.HeadCell>PostId</Table.HeadCell>
-              <Table.HeadCell>UserId</Table.HeadCell>
+              <Table.HeadCell>Post Title</Table.HeadCell>
+              <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
             {comments.map((comment) => (
@@ -102,8 +140,8 @@ export default function DashComments() {
                   </Table.Cell>
                   <Table.Cell>{comment.content}</Table.Cell>
                   <Table.Cell>{comment.numberOfLikes}</Table.Cell>
-                  <Table.Cell>{comment.postId}</Table.Cell>
-                  <Table.Cell>{comment.userId}</Table.Cell>
+                  <Table.Cell>{posts[comment.postId]}</Table.Cell>
+                  <Table.Cell>{users[comment.userId]}</Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {
@@ -122,7 +160,7 @@ export default function DashComments() {
           {showMore && (
             <button
               onClick={handleShowMore}
-              className='w-full text-cyan-500 self-center text-sm py-7'
+              className='w-full text-blue-500 self-center text-sm py-7'
             >
               Show more
             </button>
@@ -146,10 +184,10 @@ export default function DashComments() {
             </h3>
             <div className='flex justify-center gap-4'>
               <Button color='failure' onClick={handleDeleteComment}>
-                Yes, I am sure. 
+                Yes, I am sure.
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
-                No, cancel the deletion. 
+                No, cancel the deletion.
               </Button>
             </div>
           </div>

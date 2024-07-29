@@ -86,6 +86,16 @@ export const getPosts = async (req, res, next) => {
   }
 };
 
+export const getPostsByIds = async (req, res, next) => {
+  try {
+    const { postIds } = req.body;
+    const posts = await Post.find({ _id: { $in: postIds } });
+    res.status(200).json({ posts });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deletePost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(

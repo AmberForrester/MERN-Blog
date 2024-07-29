@@ -151,3 +151,13 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUsersByIds = async (req, res, next) => {
+  try {
+    const { userIds } = req.body;
+    const users = await User.find({ _id: { $in: userIds } });
+    res.status(200).json({ users });
+  } catch (error) {
+    next(error);
+  }
+};
