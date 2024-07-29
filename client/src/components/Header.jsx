@@ -122,15 +122,15 @@ const Header = () => {
 
                     <div className='w-full md:block md:w-auto'>
                       <Navbar.Collapse>
-                        <Navbar.Link as={'div'} className={getActiveClass('/')}>
+                        <Navbar.Link as={'div'} className={`${getActiveClass('/')} custom-navbar-link`}>
                               <Link to='/'>Home</Link>
                         </Navbar.Link>
 
-                        <Navbar.Link as={'div'} className={getActiveClass('/about')}>
+                        <Navbar.Link as={'div'} className={`${getActiveClass('/about')} custom-navbar-link`}>
                               <Link to='/about'>About</Link>
                         </Navbar.Link>
 
-                        <Navbar.Link as={'div'} className={getActiveClass('/blogs')}>
+                        <Navbar.Link as={'div'} className={`${getActiveClass('/blogs')} custom-navbar-link`}>
                               <Link to='/blogs'>Blogs</Link>
                         </Navbar.Link>
                       </Navbar.Collapse>  
