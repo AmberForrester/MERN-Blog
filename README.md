@@ -3,21 +3,21 @@ Navigate dynamic pages with React Router Dom, and secure authentication with JWT
 
 # Project Login Information 
 
-*** Oauth Google ***
+OAuth Google - 
 Username: mernblog2024@gmail.com
 Password: July182024!
 
-*** Firebase Google App *** 
+Firebase Google App - 
 https://firebase.google.com/
 Username: mernblog2024@gmail.com
 Password: July182024!
 
-*** MongoDB ***
+MongoDB -
 https://www.mongodb.com/
 Username: mernblog2024@gmail.com
 Password: July182024!
 
-*** Demo Admin User ***
+Demo Admin User -
 Username: adminuser@example.com
 Password: adminpassword
 
