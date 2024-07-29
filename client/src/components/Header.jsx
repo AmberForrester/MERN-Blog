@@ -1,6 +1,6 @@
 import {Avatar, Button, Dropdown, Navbar} from 'flowbite-react';
-import {useEffect} from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {AiOutlineSearch} from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,14 +17,24 @@ const Header = () => {
 
   const { theme } = useSelector((state) => state.theme);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [searchTerm, setSearchTerm] = useState('');
+
   
 
+// Search query goes here.
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+        const searchTermFromUrl = urlParams.get('searchTerm');
 
+        if (searchTermFromUrl) {
+            setSearchTerm(searchTermFromUrl);
+        }
 
-  useEffect(() => {}); // Search query goes here.
-
-
-
+    }, [location.search]);
+ 
 
 
   const getActiveClass = (currentPath) => {
@@ -50,6 +60,15 @@ const Header = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
 
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
@@ -60,11 +79,17 @@ const Header = () => {
                   Blog
               </Link>
 
-                  <form className='hidden lg:flex items-center relative'>
+                  <form 
+                    className='hidden lg:flex items-center relative'
+                    onSubmit={handleSubmit}
+                  >
                     <input
                       type='text'
                       placeholder='Search...'
-                      className='px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-white'/>
+                      className='px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-white'
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value) }
+                      />
                     <button
                       type='submit'
                       className='absolute right-0 p-2 mr-2'>

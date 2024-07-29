@@ -16,7 +16,6 @@ export default function Search() {
   const [showMore, setShowMore] = useState(false);
 
   const location = useLocation();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,12 +24,12 @@ export default function Search() {
     const sortFromUrl = urlParams.get('sort');
     const categoryFromUrl = urlParams.get('category');
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
-      setSidebarData({
-        ...sidebarData,
+      setSidebarData(prevSidebarData => ({
+        ...prevSidebarData,
         searchTerm: searchTermFromUrl,
         sort: sortFromUrl,
         category: categoryFromUrl,
-      });
+      }));
     }
 
     const fetchPosts = async () => {
@@ -56,17 +55,11 @@ export default function Search() {
   }, [location.search]);
 
   const handleChange = (e) => {
-    if (e.target.id === 'searchTerm') {
-      setSidebarData({ ...sidebarData, searchTerm: e.target.value });
-    }
-    if (e.target.id === 'sort') {
-      const order = e.target.value || 'desc';
-      setSidebarData({ ...sidebarData, sort: order });
-    }
-    if (e.target.id === 'category') {
-      const category = e.target.value || 'uncategorized';
-      setSidebarData({ ...sidebarData, category });
-    }
+    const { id, value } = e.target;
+    setSidebarData(prevSidebarData => ({
+      ...prevSidebarData,
+      [id]: value || (id === 'sort' ? 'desc' : 'uncategorized')
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -116,13 +109,7 @@ export default function Search() {
               onChange={handleChange}
             />
           </div>
-          <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Sort:</label>
-            <Select onChange={handleChange} value={sidebarData.sort} id='sort'>
-              <option value='desc'>Latest</option>
-              <option value='asc'>Oldest</option>
-            </Select>
-          </div>
+          
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Category:</label>
             <Select
@@ -130,10 +117,38 @@ export default function Search() {
               value={sidebarData.category}
               id='category'
             >
-              <option value='uncategorized'>Uncategorized</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>Next.js</option>
-              <option value='javascript'>JavaScript</option>
+                    <option value='uncategorized'>Select a category</option>
+                    <option value='projectmanagement'>Project Management for Software Development</option>
+                    <option value='fullstackdevelopment'>Introduction to Full Stack Development</option>
+                    <option value='developertools'>Developer Tools</option>
+                    <option value='documentation'>Documentation</option>
+                    <option value='github'>GitHub</option>
+                    <option value='visualstudiocode'>Visual Studio Code</option>
+                    <option value='frontend'>Frontend - HTML & CSS</option>
+                    <option value='javascript'>JavaScript</option>
+                    <option value='react.js'>React</option>
+                    <option value='router'>Router</option>
+                    <option value='virtualization'>Virtualization</option>
+                    <option value='mongodb'>MongoDB</option>
+                    <option value='express'>Express</option>
+                    <option value='node.js'>Node.js</option>
+                    <option value='mernstack'>MERN Stack</option>
+                    <option value='angular'>Angular</option>
+                    <option value='meanstack'>MEAN Stack</option>
+                    <option value='api'>API&apos;s</option>
+                    <option value='thunderclient'>Thunder Client</option>
+                    <option value='middleware'>Middleware</option>
+                    <option value='jwt'>JSON Web Tokens</option>
+                    <option value='tailwindcss'>TailwindCSS</option>
+                    <option value='redux'>Redux</option>
+                    <option value='express'>Express</option>
+                    <option value='nextjs'>Next.js</option>
+                    <option value='python'>Python</option>
+                    <option value='flask'>Flask</option>
+                    <option value='django'>Django Framework</option>
+                    <option value='student'>Student Tips & Tricks</option>
+                    <option value='chatgpt'>Chat GPT</option>
+                    <option value='fsdlife'>Day In The Life Of A Full Stack Developer</option>
             </Select>
           </div>
           <Button type='submit' className='bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white no-outline' outline>
