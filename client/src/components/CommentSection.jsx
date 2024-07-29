@@ -245,7 +245,9 @@ const CommentSection = ({ postId }) => {
 };
 
 CommentSection.propTypes = {
+
   postId: PropTypes.string.isRequired,
+  
 };
 
 export default CommentSection;

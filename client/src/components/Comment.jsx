@@ -87,7 +87,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               <Button
                 type='button'
                 size='sm'
-                gradientDuoTone='purpleToBlue'
+                className='px-2 py-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white'
                 onClick={handleSave}
               >
                 Save
@@ -95,7 +95,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               <Button
                 type='button'
                 size='sm'
-                gradientDuoTone='purpleToBlue'
+                className='py-1 px-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-700 rounded-lg text-white no-outline'
                 outline
                 onClick={() => setIsEditing(false)}
               >
@@ -152,6 +152,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
 }
 
 Comment.propTypes = {
+
   comment: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
@@ -159,8 +160,11 @@ Comment.propTypes = {
     createdAt: PropTypes.string.isRequired,
     likes: PropTypes.arrayOf(PropTypes.string).isRequired,
     numberOfLikes: PropTypes.number.isRequired,
+
   }).isRequired,
+
   onLike: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  
 };
