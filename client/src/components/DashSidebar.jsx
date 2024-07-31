@@ -11,6 +11,7 @@ const DashSidebar = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
+    
 
     const [tab, setTab] = useState('');
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const DashSidebar = () => {
           console.log('Sign-out successful');
           dispatch(signOutSuccess());
           console.log('User signed out, redirecting to home page');
-          navigate('/'); // Redirect to the home page
+          navigate('/');
         }
       } catch (error) {
         console.log('Error during sign-out:', error.message);
