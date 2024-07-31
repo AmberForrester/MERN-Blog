@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { Sidebar } from 'flowbite-react';
 import { useSelector } from 'react-redux'; 
 import { HiChartPie, HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiAnnotation } from 'react-icons/hi';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { signOutSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
 
@@ -10,13 +10,13 @@ const DashSidebar = () => {
     const { currentUser } = useSelector((state) => state.user);
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [tab, setTab] = useState('');
     const dispatch = useDispatch();
   
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
-
       const tabFromUrl = urlParams.get('tab');
 
       if (tabFromUrl) {
@@ -25,7 +25,6 @@ const DashSidebar = () => {
     }, [location.search]);
 
     const handleSignOut = async () => {
-
       try {
         const res = await fetch(`/api/user/signout`, {
           method: "POST",
@@ -34,25 +33,23 @@ const DashSidebar = () => {
         const data = await res.json();
   
         if (!res.ok) {
-          console.log(data.message);
+          console.log('Sign-out failed:', data.message);
         } else {
+          console.log('Sign-out successful');
           dispatch(signOutSuccess());
+          console.log('User signed out, redirecting to home page');
+          navigate('/'); // Redirect to the home page
         }
-  
-  
       } catch (error) {
-        console.log(error.message);
+        console.log('Error during sign-out:', error.message);
       }
     };
 
   return (
-
     <Sidebar className="w-full md:w-56">
         <Sidebar.Items>
-
             <Sidebar.ItemGroup className="flex flex-col gap-1">
                 {currentUser && currentUser.isAdmin && (
-
                     <Link to="/dashboard?tab=dash">
                         <Sidebar.Item
                         active={tab === 'dash'}
@@ -110,7 +107,6 @@ const DashSidebar = () => {
             </>
           )}
 
-
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"
@@ -126,4 +122,3 @@ const DashSidebar = () => {
 };
 
 export default DashSidebar;
-    

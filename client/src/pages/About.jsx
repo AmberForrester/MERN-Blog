@@ -30,11 +30,11 @@ export default function About() {
             <p>
               Thank you for being here!
             </p>
-           <h1 className=' text-2xl text-white italic'>
+           
+          </div>
+          <h1 className='text-2xl md:text-center italic mt-3'>
             Check back soon to hear more about my journey as a Full Stack Developer!
           </h1> 
-          </div>
-          
         </div>
       </div>
     </div>
