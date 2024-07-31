@@ -40,27 +40,45 @@ Navigate dynamic pages with React Router Dom, and secure authentication with JWT
 - All comments status dashboard page for Admins only
 - Search filters with search page UI
 
+## Backend Configuration
 
+1. **Environment Files**: Navigate to the `server` folder and create one file: `.env`. Add the following contents:
 
+    ```plaintext
+    MONGO=
 
+    JWT_SECRET=
+    ```
 
-# Project Login Information 
+## Frontend Configuration
 
-OAuth Google - 
-Username: mernblog2024@gmail.com
-Password: July182024!
+1. **Environment Files**: Navigate to the `client` folder and create a file: `.env`:
 
-Firebase Google App - 
-https://firebase.google.com/
-Username: mernblog2024@gmail.com
-Password: July182024!
+    ```plaintext
+    VITE_FIREBASE_API_KEY=
+    ```
+2. Navigate to the `client` folder and create a file: `firebase.js`:
 
-MongoDB -
-https://www.mongodb.com/
-Username: mernblog2024@gmail.com
-Password: July182024!
+    ```plaintext
+    Import the functions you need from the SDKs you need -
+import { initializeApp } from "firebase/app";
 
-Demo Admin User -
-Username: adminuser@example.com
-Password: adminpassword
+    Add SDKs for Firebase products that you want to use -
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+    Add your web app's Firebase configuration -
+    For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: ,
+  authDomain: " ",
+  projectId: " ",
+  storageBucket: " ",
+  messagingSenderId: " ",
+  appId: " ",
+  measurementId: " "
+};
+
+    Initialize Firebase and export to use in other parts of our application - 
+export const app = initializeApp(firebaseConfig);
+    ```
 
