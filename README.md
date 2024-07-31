@@ -63,8 +63,7 @@ Navigate dynamic pages with React Router Dom, and secure authentication with JWT
     Import the functions you need from the SDKs you need -
 import { initializeApp } from "firebase/app";
 
-    Add SDKs for Firebase products that you want to use -
-// https://firebase.google.com/docs/web/setup#available-libraries
+    Add SDKs for Firebase products that you want to use using [Firebase](https://firebase.google.com/docs/web/setup#available-libraries)
 
     Add your web app's Firebase configuration -
     For Firebase JS SDK v7.20.0 and later, measurementId is optional
