@@ -7,10 +7,11 @@ export default function Search() {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: '',
     sort: 'desc',
-    category: 'uncategorized',
+    category: '',
   });
 
   console.log(sidebarData);
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -26,9 +27,9 @@ export default function Search() {
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData(prevSidebarData => ({
         ...prevSidebarData,
-        searchTerm: searchTermFromUrl,
-        sort: sortFromUrl,
-        category: categoryFromUrl,
+        searchTerm: searchTermFromUrl || '',
+        sort: sortFromUrl || 'desc',
+        category: categoryFromUrl || '',
       }));
     }
 
@@ -58,16 +59,19 @@ export default function Search() {
     const { id, value } = e.target;
     setSidebarData(prevSidebarData => ({
       ...prevSidebarData,
-      [id]: value || (id === 'sort' ? 'desc' : '')
+      [id]: value,
+      // Reset category if search term is changed and vice versa
+      ...(id === 'searchTerm' && { category: '' }), // Reset category to empty string
+      ...(id === 'category' && { searchTerm: '' }), // Reset search term to empty string
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const urlParams = new URLSearchParams(location.search);
-    urlParams.set('searchTerm', sidebarData.searchTerm);
+    const urlParams = new URLSearchParams();
+    if (sidebarData.searchTerm) urlParams.set('searchTerm', sidebarData.searchTerm);
+    if (sidebarData.category) urlParams.set('category', sidebarData.category);
     urlParams.set('sort', sidebarData.sort);
-    urlParams.set('category', sidebarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -82,15 +86,9 @@ export default function Search() {
     if (!res.ok) {
       return;
     }
-    if (res.ok) {
-      const data = await res.json();
-      setPosts([...posts, ...data.posts]);
-      if (data.posts.length === 9) {
-        setShowMore(true);
-      } else {
-        setShowMore(false);
-      }
-    }
+    const data = await res.json();
+    setPosts([...posts, ...data.posts]);
+    setShowMore(data.posts.length === 9);
   };
 
   return (
@@ -116,9 +114,8 @@ export default function Search() {
               onChange={handleChange}
               value={sidebarData.category}
               id='category'
-              required
             >
-                    <option value='uncategorized'>Select a category</option>
+                    <option value=''>Select a category</option>
                     <option value='projectmanagement'>Project Management for Software Development</option>
                     <option value='fullstackdevelopment'>Introduction to Full Stack Development</option>
                     <option value='developertools'>Developer Tools</option>
