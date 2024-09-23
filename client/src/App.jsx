@@ -31,27 +31,22 @@ const App = () => {
         <Route path='/signup' element={<SignUp/>}/>
         <Route path="/search" element={<Search/>}/>
         
+        {/* Protected routes for logged-in users */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path='/' element={<Home/>}/>
         </Route>
 
+        {/* Admin-only protected routes */}
         <Route element={<OnlyAdminPrivateRoute />}>
-
           <Route path="/create-post" element={<CreatePost/>} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
-          <Route path='/' element={<Home/>}/>
-          
         </Route>
 
-
+        {/* Blog and Post routes */}
         <Route path='/blogs' element={<Blogs/>}/>
         <Route path='/post/:postSlug' element={<PostPage/>}/>
-
-
-
-
       </Routes>
+
       <FooterCom/>
     </BrowserRouter>
   );

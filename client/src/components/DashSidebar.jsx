@@ -5,6 +5,7 @@ import { HiChartPie, HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup,
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { signOutSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
+import { getAuth, signOut } from 'firebase/auth'; // Import because you are using Firebase authentication.
 
 const DashSidebar = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -26,7 +27,12 @@ const DashSidebar = () => {
     }, [location.search]);
 
     const handleSignOut = async () => {
+      const auth = getAuth();
+
       try {
+        await signOut(auth); // Sign out of Firebase first.
+
+        // Then make your API call for server-side sign-out.
         const res = await fetch(`/api/user/signout`, {
           method: "POST",
         });
@@ -39,7 +45,7 @@ const DashSidebar = () => {
           console.log('Sign-out successful');
           dispatch(signOutSuccess());
           console.log('User signed out, redirecting to home page');
-          navigate('/');
+          navigate('/'); // Redirect admin user to home page after sign out.
         }
       } catch (error) {
         console.log('Error during sign-out:', error.message);

@@ -58,7 +58,7 @@ export default function Search() {
     const { id, value } = e.target;
     setSidebarData(prevSidebarData => ({
       ...prevSidebarData,
-      [id]: value || (id === 'sort' ? 'desc' : 'uncategorized')
+      [id]: value || (id === 'sort' ? 'desc' : '')
     }));
   };
 
